@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition-duration: 250ms;
+}
+
+body {
+    min-height: 100dvh;
+    background-color: #e5dada;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+body,
+.calculator-div,
+.keyboard-div {
+    display: flex;
+}
+
+.calculator-div {
+    max-width: 300px;
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    background-color: #2B2B2B;
+    border-radius: 12px;
+}
+
+.result-display {
+    text-align: right;
+    background-color: #90A548;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.top-result-display {
+    font-size: 20px;
+    opacity: 75%;
+}
+.bottom-result-display {
+    font-size: 48px;
+}
+
+.keyboard-div {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 16px 10px;
+    font-size: 28px;
+}
+
+.keyboard-div div {
+    width: 55px;
+    text-align: center;
+    color: rgba(187, 183, 183, 0.85);
+    padding: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.keyboard-div div:hover {
+    opacity: 50%;
+}
+
+.gray-key{
+    background-color: #4E4E4E;
+}
+
+.orange-key{
+    background-color: #CD5027;
+}
+
+.blue-key {
+    background-color: #2D4760;
+}
+
+.red-key {
+    background-color: #A7230A;
+}
