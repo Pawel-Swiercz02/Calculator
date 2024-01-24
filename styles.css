@@ -38,6 +38,7 @@ body,
 }
 
 .top-result-display {
+    height: 24px;
     font-size: 20px;
     opacity: 75%;
 }
