@@ -3,12 +3,14 @@ const resultDisplay = document.querySelector('.bottom-result-display');
 const numberKeyArr = document.querySelectorAll('.number-key');
 const operatorKeyArr = document.querySelectorAll('.operator');
 const equalsKey = document.querySelector('.equals-key');
+const periodKey = document.querySelector('.period-key');
 let resultValue = 0;
 let firstNumber = '';
 let secondNumber = '';
 let operator;
 let opForDisplay;
 let operatorChosen = false;
+let periodChosen = false;
 
 
 resultDisplay.innerHTML = resultValue;
@@ -21,122 +23,54 @@ function keysEventListeners() {
         opKey.addEventListener('click', chooseOperator);
     });
     equalsKey.addEventListener('click', operate);
+    periodKey.addEventListener('click', periodChosenChange);
 };
 keysEventListeners();
 
+function periodChosenChange() {
+    periodChosen = true;
+};
+
 function changeNumber() {
-    switch(this.id) {
-        case '0':
-            if (!operatorChosen) {
-                firstNumber += '0';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '0';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '1':
-            if (!operatorChosen) {
-                firstNumber += '1';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '1';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '2':
-            if (!operatorChosen) {
-                firstNumber += '2';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '2';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '3':
-            if (!operatorChosen) {
-                firstNumber += '3';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '3';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '4':
-            if (!operatorChosen) {
-                firstNumber += '4';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '4';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '5':
-            if (!operatorChosen) {
-                firstNumber += '5';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '5';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '6':
-            if (!operatorChosen) {
-                firstNumber += '6';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '6';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '7':
-            if (!operatorChosen) {
-                firstNumber += '7';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '7';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '8':
-            if (!operatorChosen) {
-                firstNumber += '8';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '8';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
-        case '9':
-            if (!operatorChosen) {
-                firstNumber += '9';
-                firstNumber = Number(firstNumber);
-                resultDisplay.innerHTML = firstNumber;
-            } else {
-                secondNumber += '9';
-                secondNumber = Number(secondNumber);
-                resultDisplay.innerHTML = secondNumber;
-            };
-            break;
+    if (!operatorChosen) {
+        if (!periodChosen) {
+            firstNumber += this.id;
+        } else {
+            firstNumber += '.' + this.id;
+            periodKey.removeEventListener('click', periodChosenChange);
+            periodChosen = false;
+        };
+        resultDisplay.innerHTML = firstNumber;
+    } else {
+        if (!periodChosen) {
+            secondNumber += this.id;
+        } else {
+            secondNumber += '.' + this.id;
+            periodChosen = false;
+        };
+        resultDisplay.innerHTML = secondNumber;
     };
+
+
+    /*if (!operatorChosen) {
+        if (!periodChosen) {
+            firstNumber += this.id;
+        } else {
+            firstNumber += '.' + this.id;
+            periodChosen = false;
+        };
+        firstNumber = Number(firstNumber);
+        resultDisplay.innerHTML = firstNumber;
+    } else {
+        if (!periodChosen) {
+            secondNumber += this.id;
+        } else {
+            secondNumber += '.' + this.id;
+            periodChosen = false;
+        };
+        secondNumber = Number(secondNumber);
+        resultDisplay.innerHTML = secondNumber;
+    };*/
 };
 
 function chooseOperator() {
@@ -160,6 +94,8 @@ function chooseOperator() {
     };
     operatorChosen = true;
     topResultDisplay.innerHTML = firstNumber + opForDisplay;
+    /* FIX THIS, SO U CANT HAVE MULTIPLE PERIODS IN ONE NUMBER*/
+    periodKey.addEventListener('click', periodChosenChange);
 };
 
 function operate() {
@@ -168,6 +104,8 @@ function operate() {
     } else if (secondNumber === '') {
         topResultDisplay.innerHTML = firstNumber + '=';
     } else {
+        firstNumber = Number(firstNumber);
+        secondNumber = Number(secondNumber);
         switch(operator) {
             case 'divide':
                 if (secondNumber === 0) {
