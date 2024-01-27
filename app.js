@@ -4,6 +4,10 @@ const numberKeyArr = document.querySelectorAll('.number-key');
 const operatorKeyArr = document.querySelectorAll('.operator');
 const equalsKey = document.querySelector('.equals-key');
 const periodKey = document.querySelector('.period-key');
+const clearKey = document.querySelector('.clear-key');
+const backspaceKey = document.querySelector('.backspace-key');
+const openPar = document.querySelector('.open-parentheses-key');
+const closePar = document.querySelector('.close-parentheses-key');
 let resultValue = 0;
 let firstNumber = '';
 let secondNumber = '';
@@ -24,12 +28,11 @@ function keysEventListeners() {
     });
     equalsKey.addEventListener('click', operate);
     periodKey.addEventListener('click', periodChosenChange);
+    clearKey.addEventListener('click', clearEverything);
+    backspaceKey.addEventListener('click', backspaceClear);
+    openPar.addEventListener('click', startParentheses);
 };
 keysEventListeners();
-
-function periodChosenChange() {
-    periodChosen = true;
-};
 
 function changeNumber() {
     if (!operatorChosen) {
@@ -46,31 +49,11 @@ function changeNumber() {
             secondNumber += this.id;
         } else {
             secondNumber += '.' + this.id;
+            periodKey.removeEventListener('click', periodChosenChange);
             periodChosen = false;
         };
         resultDisplay.innerHTML = secondNumber;
     };
-
-
-    /*if (!operatorChosen) {
-        if (!periodChosen) {
-            firstNumber += this.id;
-        } else {
-            firstNumber += '.' + this.id;
-            periodChosen = false;
-        };
-        firstNumber = Number(firstNumber);
-        resultDisplay.innerHTML = firstNumber;
-    } else {
-        if (!periodChosen) {
-            secondNumber += this.id;
-        } else {
-            secondNumber += '.' + this.id;
-            periodChosen = false;
-        };
-        secondNumber = Number(secondNumber);
-        resultDisplay.innerHTML = secondNumber;
-    };*/
 };
 
 function chooseOperator() {
@@ -94,7 +77,6 @@ function chooseOperator() {
     };
     operatorChosen = true;
     topResultDisplay.innerHTML = firstNumber + opForDisplay;
-    /* FIX THIS, SO U CANT HAVE MULTIPLE PERIODS IN ONE NUMBER*/
     periodKey.addEventListener('click', periodChosenChange);
 };
 
@@ -129,5 +111,49 @@ function operate() {
         resultDisplay.innerHTML = resultValue;
         firstNumber = resultValue;
         secondNumber = '';
+    };
+};
+
+function periodChosenChange() {
+    periodChosen = true;
+};
+
+function clearEverything() {
+    resultValue = 0;
+    firstNumber = '';
+    secondNumber = '';
+    operator = '';
+    opForDisplay = '';
+    operatorChosen = false;
+    periodChosen = false;
+    resultDisplay.innerHTML = resultValue;
+    topResultDisplay.innerHTML = '';
+};
+
+function backspaceClear() {
+    if (!operatorChosen) {
+        firstNumber = firstNumber.slice(0, -1);
+        console.log(firstNumber.length)
+        if (firstNumber.length === 0) {
+            resultDisplay.innerHTML = '0';
+        } else {
+            resultDisplay.innerHTML = firstNumber;
+        };
+    } else {
+        secondNumber = secondNumber.slice(0, -1);
+        if (secondNumber.length === 0) {
+            resultDisplay.innerHTML = '0';
+        } else {
+            resultDisplay.innerHTML = secondNumber;
+        };
+    };
+};
+
+function startParentheses() {
+    /* add both and change parenthesesChosen = false to true, then on end parentheses change parenthesesChose to false again so the numbers are out; */
+    if (!operatorChosen) {
+        firstNumber += '(';
+    } else {
+        secondNumber += '(';
     };
 };
