@@ -35,10 +35,11 @@ body,
     border-radius: 12px;
     margin-bottom: 12px;
     color: rgba(0, 0, 0, 0.55);
+    word-wrap: break-word;
 }
 
 .top-result-display {
-    height: 24px;
+    min-height: 24px;
     font-size: 20px;
     opacity: 75%;
 }
@@ -67,6 +68,15 @@ body,
     opacity: 50%;
 }
 
+.keyboard-div .non-visible {
+    cursor: default;
+    color: green;
+}
+
+.keyboard-div .non-visible:hover {
+    opacity: 100%;
+}
+
 .gray-key{
     background-color: #4E4E4E;
 }
@@ -81,4 +91,15 @@ body,
 
 .red-key {
     background-color: #A7230A;
+}
+
+.keyboard-div .grayed-out {
+    background: gray;
+    opacity: 35%;
+    cursor: not-allowed;
+}
+
+.keyboard-div .grayed-out:hover {
+    background: gray;
+    opacity: 35%; 
 }
