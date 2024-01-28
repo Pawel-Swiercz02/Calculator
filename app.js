@@ -6,8 +6,6 @@ const equalsKey = document.querySelector('.equals-key');
 const periodKey = document.querySelector('.period-key');
 const clearKey = document.querySelector('.clear-key');
 const backspaceKey = document.querySelector('.backspace-key');
-const openPar = document.querySelector('.open-parentheses-key');
-const closePar = document.querySelector('.close-parentheses-key');
 let resultValue = 0;
 let firstNumber = '';
 let secondNumber = '';
@@ -17,8 +15,11 @@ let operatorChosen = false;
 let periodChosen = false;
 
 
+//Display default resultValue (0) on page load
 resultDisplay.innerHTML = resultValue;
 
+
+//Add event listeners to all keys on page load
 function keysEventListeners() {
     numberKeyArr.forEach(numberKey => {
         numberKey.addEventListener('click', changeNumber);
@@ -30,10 +31,14 @@ function keysEventListeners() {
     periodKey.addEventListener('click', periodChosenChange);
     clearKey.addEventListener('click', clearEverything);
     backspaceKey.addEventListener('click', backspaceClear);
-    openPar.addEventListener('click', startParentheses);
 };
 keysEventListeners();
 
+
+//This function operates on strings, the strings are converted into numbers once you click the '=' key (in the operate() function at line 85).
+/*
+If operator isn't chosen (so none of these (+ - / x) keys were pushed), it performs operations on the first number, otherwise on the second one
+*/
 function changeNumber() {
     if (!operatorChosen) {
         if (!periodChosen) {
@@ -55,6 +60,7 @@ function changeNumber() {
         resultDisplay.innerHTML = secondNumber;
     };
 };
+
 
 function chooseOperator() {
     switch(this.id) {
@@ -80,6 +86,8 @@ function chooseOperator() {
     periodKey.addEventListener('click', periodChosenChange);
 };
 
+
+//Equals '=' key function
 function operate() {
     if (firstNumber === '') {
         topResultDisplay.innerHTML = '0=';
@@ -92,7 +100,7 @@ function operate() {
             case 'divide':
                 if (secondNumber === 0) {
                     resultValue = "You can't divide by zero";
-                    /*Grey out buttons and removeeventlisteners or something so u cant perform more actions until u reset by pressing C button*/
+                    grayOutButtons();
                 } else {
                     resultValue = firstNumber / secondNumber;
                 }
@@ -114,10 +122,14 @@ function operate() {
     };
 };
 
+
+//Period key function
 function periodChosenChange() {
     periodChosen = true;
 };
 
+
+//C (clear) key function
 function clearEverything() {
     resultValue = 0;
     firstNumber = '';
@@ -128,12 +140,14 @@ function clearEverything() {
     periodChosen = false;
     resultDisplay.innerHTML = resultValue;
     topResultDisplay.innerHTML = '';
+    bringButtonsBack();
 };
 
+
+//Backspace key function
 function backspaceClear() {
     if (!operatorChosen) {
         firstNumber = firstNumber.slice(0, -1);
-        console.log(firstNumber.length)
         if (firstNumber.length === 0) {
             resultDisplay.innerHTML = '0';
         } else {
@@ -149,11 +163,36 @@ function backspaceClear() {
     };
 };
 
-function startParentheses() {
-    /* add both and change parenthesesChosen = false to true, then on end parentheses change parenthesesChose to false again so the numbers are out; */
-    if (!operatorChosen) {
-        firstNumber += '(';
-    } else {
-        secondNumber += '(';
-    };
+
+//This function is called, when you try to divide by zero, so after you get the alert 'You can't divide by zero' you are forced to press the C button to reset the calculator
+function grayOutButtons() {
+    numberKeyArr.forEach(numberKey => {
+        numberKey.removeEventListener('click', changeNumber);
+        numberKey.classList.add('grayed-out');
+    });
+    operatorKeyArr.forEach(opKey => {
+        opKey.removeEventListener('click', chooseOperator);
+        opKey.classList.add('grayed-out');
+    });
+    equalsKey.removeEventListener('click', operate);
+    equalsKey.classList.add('grayed-out');
+    periodKey.removeEventListener('click', periodChosenChange);
+    periodKey.classList.add('grayed-out');
+    backspaceKey.removeEventListener('click', backspaceClear);
+    backspaceKey.classList.add('grayed-out');
+};
+
+
+//This function 'un-grays' the buttons - brings their functionality and looks back
+function bringButtonsBack() {
+    keysEventListeners();
+    numberKeyArr.forEach(numberKey => {
+        numberKey.classList.remove('grayed-out');
+    });
+    operatorKeyArr.forEach(opKey => {
+        opKey.classList.remove('grayed-out');
+    });
+    equalsKey.classList.remove('grayed-out');
+    periodKey.classList.remove('grayed-out');
+    backspaceKey.classList.remove('grayed-out');
 };
